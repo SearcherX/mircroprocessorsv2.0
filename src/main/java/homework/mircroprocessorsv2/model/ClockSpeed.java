@@ -79,4 +79,13 @@ public class ClockSpeed {
     public int hashCode() {
         return Objects.hash(id, minValueM, maxValueM);
     }
+
+    @Override
+    public String toString() {
+        return "ClockSpeed{" +
+                "id=" + id +
+                ", minValueM=" + minValueM +
+                ", maxValueM=" + maxValueM +
+                '}';
+    }
 }

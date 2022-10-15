@@ -32,20 +32,28 @@ class DBOrderControlTest {
         clockSpeed1.setMaxValueM(null);
         clockSpeeds.add(clockSpeed1);
 
-        microprocessor.setClockspeedsById(clockSpeeds);
+        microprocessor.setClockSpeedsById(clockSpeeds);
         new DBOrderControl().saveMicroprocessor(microprocessor);
     }
 
     @Test
     void getMicroprocessorById() {
+        Microprocessor microprocessor = new DBOrderControl().getMicroprocessorById(83);
+        System.out.println(microprocessor);
     }
 
     @Test
     void getAllMicroprocessors() {
+        List<Microprocessor> microprocessors = new DBOrderControl().getAllMicroprocessors();
+        System.out.println(microprocessors);
     }
 
     @Test
     void updateMicroprocessor() {
+        Microprocessor microprocessor = new DBOrderControl().getMicroprocessorById(84);
+        microprocessor.setModel("Новый тест10");
+//        microprocessor.getClockSpeedsById().get(0).setMaxValueM(new BigDecimal("200"));
+        new DBOrderControl().updateMicroprocessor(microprocessor);
     }
 
     @Test

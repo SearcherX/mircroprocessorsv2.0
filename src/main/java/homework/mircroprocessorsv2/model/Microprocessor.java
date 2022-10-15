@@ -1,8 +1,11 @@
 package homework.mircroprocessorsv2.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -33,9 +36,9 @@ public class Microprocessor {
     @Column(name = "ReleaseYear")
     private int releaseYear;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = { CascadeType.PERSIST })
     @JoinColumn(name = "microprocessorId")
-    private Collection<ClockSpeed> clockspeedsById;
+    private List<ClockSpeed> clockSpeedsById;
 
     public int getId() {
         return id;
@@ -101,6 +104,17 @@ public class Microprocessor {
         this.releaseYear = releaseYear;
     }
 
+    public void updateFields(Microprocessor src) {
+        model = src.model;
+        dataBitDepth = src.dataBitDepth;
+        addressBitDepth = src.getAddressBitDepth();
+        addressSpaces = src.getAddressSpaces();
+        numberOfCommands = src.numberOfCommands;
+        numberOfElements = src.numberOfElements;
+        releaseYear = src.releaseYear;
+        clockSpeedsById = src.clockSpeedsById;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,11 +128,26 @@ public class Microprocessor {
         return Objects.hash(id, model, dataBitDepth, addressBitDepth, addressSpaces, numberOfCommands, numberOfElements, releaseYear);
     }
 
-    public Collection<ClockSpeed> getClockspeedsById() {
-        return clockspeedsById;
+    public List<ClockSpeed> getClockSpeedsById() {
+        return clockSpeedsById;
     }
 
-    public void setClockspeedsById(Collection<ClockSpeed> clockspeedsById) {
-        this.clockspeedsById = clockspeedsById;
+    public void setClockSpeedsById(List<ClockSpeed> clockSpeedsById) {
+        this.clockSpeedsById = clockSpeedsById;
+    }
+
+    @Override
+    public String toString() {
+        return "Microprocessor{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", dataBitDepth=" + dataBitDepth +
+                ", addressBitDepth=" + addressBitDepth +
+                ", addressSpaces=" + addressSpaces +
+                ", numberOfCommands=" + numberOfCommands +
+                ", numberOfElements=" + numberOfElements +
+                ", releaseYear=" + releaseYear +
+                ", clockspeedsById=" + clockSpeedsById +
+                '}';
     }
 }

@@ -4,7 +4,7 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
     <persistence-unit name="default">
-        <class>homework.mircroprocessorsv2.model.Clockspeed</class>
+        <class>homework.mircroprocessorsv2.model.ClockSpeed</class>
         <class>homework.mircroprocessorsv2.model.Microprocessor</class>
 
         <properties>
