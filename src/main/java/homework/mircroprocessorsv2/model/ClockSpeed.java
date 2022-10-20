@@ -17,9 +17,6 @@ public class ClockSpeed {
     @Basic
     @Column(name = "MaxValueM")
     private BigDecimal maxValueM;
-//    @Basic
-//    @Column(name = "microprocessorId")
-//    private int microprocessorId;
 
     public int getId() {
         return id;
@@ -45,28 +42,6 @@ public class ClockSpeed {
         this.maxValueM = maxValueM;
     }
 
-//    public int getMicroprocessorId() {
-//        return microprocessorId;
-//    }
-//
-//    public void setMicroprocessorId(int microprocessorId) {
-//        this.microprocessorId = microprocessorId;
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Clockspeed that = (Clockspeed) o;
-//        return id == that.id && microprocessorId == that.microprocessorId && Objects.equals(minValueM, that.minValueM) && Objects.equals(maxValueM, that.maxValueM);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, minValueM, maxValueM, microprocessorId);
-//    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,10 +57,18 @@ public class ClockSpeed {
 
     @Override
     public String toString() {
-        return "ClockSpeed{" +
-                "id=" + id +
-                ", minValueM=" + minValueM +
-                ", maxValueM=" + maxValueM +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        if ((new Double(String.valueOf(minValueM)) % 1) == 0)
+            sb.append(minValueM.intValue());
+        else
+            sb.append(minValueM);
+        if (maxValueM != null) {
+            sb.append(" - ");
+            if (new Double(String.valueOf(maxValueM)) % 1 == 0)
+                sb.append(maxValueM.intValue());
+            else
+                sb.append(maxValueM);
+        }
+        return sb.toString();
     }
 }

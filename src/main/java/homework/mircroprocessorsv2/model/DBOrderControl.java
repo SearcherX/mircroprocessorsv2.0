@@ -80,10 +80,7 @@ public class DBOrderControl implements MicroprocessorControl {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // 1. получаю обновляемый объект по Id
-            Microprocessor updated = entityManager.find(Microprocessor.class, microprocessor.getId());
-            // 2. обновляю поля обновляемого объекта
-            updated.updateFields(microprocessor);
+            entityManager.merge(microprocessor);
             transaction.commit();
         } finally {
             if (transaction.isActive()) {

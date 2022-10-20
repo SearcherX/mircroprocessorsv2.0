@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +38,7 @@ public class Microprocessor {
     @Column(name = "ReleaseYear")
     private int releaseYear;
 
-    @OneToMany(cascade = { CascadeType.PERSIST })
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinColumn(name = "microprocessorId")
     private List<ClockSpeed> clockSpeedsById;
 
@@ -104,15 +106,33 @@ public class Microprocessor {
         this.releaseYear = releaseYear;
     }
 
-    public void updateFields(Microprocessor src) {
-        model = src.model;
-        dataBitDepth = src.dataBitDepth;
-        addressBitDepth = src.getAddressBitDepth();
-        addressSpaces = src.getAddressSpaces();
-        numberOfCommands = src.numberOfCommands;
-        numberOfElements = src.numberOfElements;
-        releaseYear = src.releaseYear;
-        clockSpeedsById = src.clockSpeedsById;
+    //преобразовать список частот в строку для вывода в текстовое поле
+    public String getClockSpeedsStr() {
+        StringBuilder sb = new StringBuilder();
+        for (ClockSpeed clockSpeed: clockSpeedsById) {
+            sb.append(clockSpeed.toString());
+            sb.append(" и ");
+        }
+        if (!sb.toString().equals(""))
+            sb.delete(sb.length() - 3, sb.length());
+        return sb.toString();
+    }
+
+    //парсить строку из текстового поля в список объектов частот
+    public void setClockSpeeds(String clockSpeeds) {
+        clockSpeedsById = new ArrayList<>();
+        String[] csArr= clockSpeeds.replaceAll(" ", "").split("и");
+        for (String cs: csArr) {
+            String[] csValArr = cs.split("-");
+            double min = Double.parseDouble(csValArr[0]);
+            BigDecimal max = null;
+            if (csValArr.length > 1)
+                max = BigDecimal.valueOf(Double.parseDouble(csValArr[1]));
+            ClockSpeed clockSpeed = new ClockSpeed();
+            clockSpeed.setMinValueM(new BigDecimal(min));
+            clockSpeed.setMaxValueM(max);
+            this.clockSpeedsById.add(clockSpeed);
+        }
     }
 
     @Override

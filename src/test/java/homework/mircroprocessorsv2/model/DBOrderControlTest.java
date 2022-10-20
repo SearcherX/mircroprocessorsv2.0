@@ -51,12 +51,13 @@ class DBOrderControlTest {
     @Test
     void updateMicroprocessor() {
         Microprocessor microprocessor = new DBOrderControl().getMicroprocessorById(84);
-        microprocessor.setModel("Новый тест10");
-//        microprocessor.getClockSpeedsById().get(0).setMaxValueM(new BigDecimal("200"));
+        microprocessor.setModel("Новый тест20");
+        microprocessor.getClockSpeedsById().get(0).setMaxValueM(new BigDecimal("200"));
         new DBOrderControl().updateMicroprocessor(microprocessor);
     }
 
     @Test
     void deleteMicroprocessorById() {
+        new DBOrderControl().deleteMicroprocessorById(84);
     }
 }
