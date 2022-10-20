@@ -1,10 +1,11 @@
-package homework.mircroprocessorsv2.model;
+package homework.mircroprocessorsv2.datasource;
 
+import homework.mircroprocessorsv2.datasource.model.Microprocessor;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-public class DBOrderControl implements MicroprocessorControl {
+public class DBMicroprocessorDataSource implements MicroprocessorDataSource {
     @Override
     public void saveMicroprocessor(Microprocessor microprocessor) {
         // 1. создаем фабрику
@@ -56,7 +57,7 @@ public class DBOrderControl implements MicroprocessorControl {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         // список результатов
-        List<Microprocessor> microprocessors = null;
+        List<Microprocessor> microprocessors;
 
         try {
             transaction.begin();

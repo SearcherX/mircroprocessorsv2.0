@@ -1,4 +1,4 @@
-package homework.mircroprocessorsv2.model;
+package homework.mircroprocessorsv2.datasource.model;
 
 import jakarta.persistence.*;
 
@@ -55,16 +55,17 @@ public class ClockSpeed {
         return Objects.hash(id, minValueM, maxValueM);
     }
 
+    //обратный парсинг в строку
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if ((new Double(String.valueOf(minValueM)) % 1) == 0)
+        if ((Double.parseDouble(String.valueOf(minValueM)) % 1) == 0)
             sb.append(minValueM.intValue());
         else
             sb.append(minValueM);
         if (maxValueM != null) {
             sb.append(" - ");
-            if (new Double(String.valueOf(maxValueM)) % 1 == 0)
+            if (Double.parseDouble(String.valueOf(maxValueM)) % 1 == 0)
                 sb.append(maxValueM.intValue());
             else
                 sb.append(maxValueM);

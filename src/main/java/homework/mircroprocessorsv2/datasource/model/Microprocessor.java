@@ -1,12 +1,9 @@
-package homework.mircroprocessorsv2.model;
+package homework.mircroprocessorsv2.datasource.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +35,7 @@ public class Microprocessor {
     @Column(name = "ReleaseYear")
     private int releaseYear;
 
-    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "microprocessorId")
     private List<ClockSpeed> clockSpeedsById;
 
@@ -124,12 +121,11 @@ public class Microprocessor {
         String[] csArr= clockSpeeds.replaceAll(" ", "").split("и");
         for (String cs: csArr) {
             String[] csValArr = cs.split("-");
-            double min = Double.parseDouble(csValArr[0]);
             BigDecimal max = null;
             if (csValArr.length > 1)
-                max = BigDecimal.valueOf(Double.parseDouble(csValArr[1]));
+                max = new BigDecimal(csValArr[1]);
             ClockSpeed clockSpeed = new ClockSpeed();
-            clockSpeed.setMinValueM(new BigDecimal(min));
+            clockSpeed.setMinValueM(new BigDecimal(csValArr[0]));
             clockSpeed.setMaxValueM(max);
             this.clockSpeedsById.add(clockSpeed);
         }

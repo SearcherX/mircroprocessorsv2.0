@@ -1,8 +1,10 @@
-package homework.mircroprocessorsv2.model;
+package homework.mircroprocessorsv2.datasource;
+
+import homework.mircroprocessorsv2.datasource.model.Microprocessor;
 
 import java.util.List;
 
-public interface MicroprocessorControl {
+public interface MicroprocessorDataSource {
     void saveMicroprocessor(Microprocessor microprocessor);
     Microprocessor getMicroprocessorById(int id);
     List<Microprocessor> getAllMicroprocessors();
