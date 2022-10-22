@@ -21,7 +21,6 @@ public class CreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DataSourceFactory factory = null;
         try {
             String model = request.getParameter("model");
             int dataBitDepth = Integer.parseInt(request.getParameter("dataBitDepth"));
@@ -43,7 +42,7 @@ public class CreateServlet extends HttpServlet {
             microprocessor.setReleaseYear(releaseYear);
             microprocessor.setClockSpeeds(clockSpeeds);
 
-            factory = new DataSourceFactory();
+            DataSourceFactory factory = new DataSourceFactory();
             MicroprocessorDataSource dataSource = factory.getDataSource();
 
             dataSource.saveMicroprocessor(microprocessor);
