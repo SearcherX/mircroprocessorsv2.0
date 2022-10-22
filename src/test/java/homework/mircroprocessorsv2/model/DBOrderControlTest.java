@@ -3,6 +3,10 @@ package homework.mircroprocessorsv2.model;
 import homework.mircroprocessorsv2.datasource.model.ClockSpeed;
 import homework.mircroprocessorsv2.datasource.model.Microprocessor;
 import homework.mircroprocessorsv2.datasource.DBMicroprocessorDataSource;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -62,5 +66,137 @@ class DBOrderControlTest {
     @Test
     void deleteMicroprocessorById() {
         new DBMicroprocessorDataSource().deleteMicroprocessorById(84);
+    }
+
+    //HQL-запрос: выбрать всех
+    @Test
+    void selectQuery1() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            // сама операция
+            Query query = entityManager.createQuery("select M from Microprocessor M " +
+                    "where M.numberOfCommands > ?1");
+            query.setParameter(1, 200);
+            List<Microprocessor> microprocessors = query.getResultList();
+            System.out.println(microprocessors);
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    //JPQL - типизированный запрос, где тактовая частота - 4.77
+    @Test
+    void selectQuery2() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            // сама операция
+            TypedQuery<Microprocessor> typedQuery = entityManager.createQuery(
+                    "select M from Microprocessor M " +
+                            "join M.clockSpeedsById cs " +
+                            "where cs.minValueM =:clockSpeed",
+                    Microprocessor.class);
+            typedQuery.setParameter("clockSpeed", new BigDecimal("4.77"));
+            System.out.println(typedQuery.getResultList());
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    //JPQL - запрос, где тактовая частота - диапозон и разрядность данных - 32
+    @Test
+    void selectQuery3() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            // сама операция
+            Query query = entityManager.createQuery(
+                    "select m from Microprocessor m " +
+                            "join m.clockSpeedsById cs " +
+                            "where cs.minValueM is not null and cs.maxValueM is not null and m.dataBitDepth = :depth"
+                    );
+            query.setParameter("depth", 32);
+            System.out.println(query.getResultList());
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    //JPQL - запрос, где модель начинается на Pe
+    @Test
+    void selectQuery4() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            // сама операция
+            Query query = entityManager.createQuery(
+                    "select m from Microprocessor m " +
+                            "where substring(m.model, 1, 2) = :str"
+            );
+            query.setParameter("str", "Pe");
+            System.out.println(query.getResultList());
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+    }
+
+    //Criteria - запрос, получить модели, начинающиеся на 80
+    @Test
+    void selectQuery5() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+            // сама операция
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Microprocessor> criteria = builder.createQuery(Microprocessor.class);
+            Root<Microprocessor> root = criteria.from(Microprocessor.class);
+            criteria.select(root);
+            criteria.where(builder.like(root.get("model"), "80%"));
+            List<Microprocessor> microprocessors = entityManager.createQuery(criteria).getResultList();
+            System.out.println(microprocessors);
+            transaction.commit();
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
     }
 }
