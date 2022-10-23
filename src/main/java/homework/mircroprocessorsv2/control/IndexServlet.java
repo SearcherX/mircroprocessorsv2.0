@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 import javax.naming.NamingException;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/index",""})
+@WebServlet(name = "IndexServlet", urlPatterns = {"/index",""})
 public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

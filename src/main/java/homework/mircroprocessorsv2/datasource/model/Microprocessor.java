@@ -1,24 +1,34 @@
 package homework.mircroprocessorsv2.datasource.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@NamedQuery(
-        name = "get_all_microprocessors",
-        query = "from Microprocessor m"
-)
-@NamedQuery(
-        name = "get_microprocessor_by_id",
-        query = "from Microprocessor m where m.id = :id"
-)
-@NamedQuery(
-        name = "update_microprocessor_by_id",
-        query = "from Microprocessor m where m.id = :id"
-)
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
+
+@NamedQueries({
+        @NamedQuery(
+                name = "get_all_microprocessors",
+                query = "from Microprocessor m"
+        ),
+        @NamedQuery(
+                name = "get_microprocessor_by_id",
+                query = "from Microprocessor m where m.id = :id"
+        ),
+        @NamedQuery(
+                name = "update_microprocessor_by_id",
+                query = "from Microprocessor m where m.id = :id"
+        ),
+        @NamedQuery(
+                name = "delete_microprocessor_by_id",
+                query = "delete from Microprocessor m where m.id = :id"
+        )
+})
 @Entity
 public class Microprocessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +57,7 @@ public class Microprocessor {
     @Column(name = "ReleaseYear")
     private int releaseYear;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "microprocessorId")
     private List<ClockSpeed> clockSpeedsById;
 

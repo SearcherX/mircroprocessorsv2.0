@@ -65,7 +65,7 @@ class DBOrderControlTest {
 
     @Test
     void deleteMicroprocessorById() {
-        new DBMicroprocessorDataSource().deleteMicroprocessorById(84);
+        new DBMicroprocessorDataSource().deleteMicroprocessorById(91);
     }
 
     //HQL-запрос: выбрать всех

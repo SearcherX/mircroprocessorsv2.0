@@ -90,7 +90,7 @@ public class QueryServlet extends HttpServlet {
                     query.setParameter("depth", 32);
                     transaction.commit();
                     request.setAttribute("microprocessors", query.getResultList());
-                    request.setAttribute("caption", "JPQL(запрос3): выбрать микропроцессоры с тактовой частотой-диапозом и разрядностью данных 32");
+                    request.setAttribute("caption", "JPQL(запрос3): выбрать микропроцессоры с тактовой частотой-диапозоном и разрядностью данных 32");
                     request.setAttribute("selectMode", selectMode);
                     getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 } finally {

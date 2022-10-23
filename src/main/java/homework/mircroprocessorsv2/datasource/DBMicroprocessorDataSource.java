@@ -108,6 +108,7 @@ public class DBMicroprocessorDataSource implements MicroprocessorDataSource {
             Microprocessor deleted = entityManager.find(Microprocessor.class, id);
             // 2. удалить
             entityManager.remove(deleted);
+            //entityManager.createNamedQuery("delete_microprocessor_by_id").setParameter("id", id).executeUpdate();
             transaction.commit();
         } finally {
             if (transaction.isActive()) {
