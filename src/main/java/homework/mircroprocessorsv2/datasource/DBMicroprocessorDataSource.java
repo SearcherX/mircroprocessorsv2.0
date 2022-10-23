@@ -39,7 +39,9 @@ public class DBMicroprocessorDataSource implements MicroprocessorDataSource {
         try {
             transaction.begin();
             // сама операция
-            result = entityManager.find(Microprocessor.class, id);
+            Query query = entityManager.createNamedQuery("get_microprocessor_by_id");
+            query.setParameter("id", id);
+            result = (Microprocessor) query.getSingleResult();
             transaction.commit();
         } finally {
             if (transaction.isActive()) {
@@ -51,6 +53,7 @@ public class DBMicroprocessorDataSource implements MicroprocessorDataSource {
         return result;  // вернуть результат
     }
 
+    //read - операция
     @Override
     public List<Microprocessor> getAllMicroprocessors() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
@@ -62,7 +65,7 @@ public class DBMicroprocessorDataSource implements MicroprocessorDataSource {
         try {
             transaction.begin();
             // сама операция
-            microprocessors = entityManager.createQuery("SELECT m FROM Microprocessor m").getResultList();
+            microprocessors = entityManager.createNamedQuery("get_all_microprocessors").getResultList();
             transaction.commit();
         } finally {
             if (transaction.isActive()) {

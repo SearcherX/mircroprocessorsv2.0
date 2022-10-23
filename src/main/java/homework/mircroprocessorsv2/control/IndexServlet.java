@@ -18,6 +18,8 @@ public class IndexServlet extends HttpServlet {
             MicroprocessorDataSource dataSource = factory.getDataSource();
 
             request.setAttribute("microprocessors", dataSource.getAllMicroprocessors());
+            request.setAttribute("caption", "Выбрать все микропроцессоры");
+            request.setAttribute("selectMode", "all");
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (NamingException e) {
             throw new RuntimeException(e);

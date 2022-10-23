@@ -78,11 +78,8 @@ class DBOrderControlTest {
         try {
             transaction.begin();
             // сама операция
-            Query query = entityManager.createQuery("select M from Microprocessor M " +
-                    "where M.numberOfCommands > ?1");
-            query.setParameter(1, 200);
-            List<Microprocessor> microprocessors = query.getResultList();
-            System.out.println(microprocessors);
+            Query query = entityManager.createQuery("from Microprocessor");
+            System.out.println(query.getResultList());
             transaction.commit();
         } finally {
             if (transaction.isActive()) {
@@ -199,4 +196,5 @@ class DBOrderControlTest {
             entityManagerFactory.close();
         }
     }
+
 }

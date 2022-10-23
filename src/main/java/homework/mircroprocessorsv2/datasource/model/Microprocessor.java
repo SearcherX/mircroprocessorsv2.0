@@ -7,6 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQuery(
+        name = "get_all_microprocessors",
+        query = "from Microprocessor m"
+)
+@NamedQuery(
+        name = "get_microprocessor_by_id",
+        query = "from Microprocessor m where m.id = :id"
+)
+@NamedQuery(
+        name = "update_microprocessor_by_id",
+        query = "from Microprocessor m where m.id = :id"
+)
 @Entity
 public class Microprocessor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
