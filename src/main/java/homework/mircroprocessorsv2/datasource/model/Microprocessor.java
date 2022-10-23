@@ -20,10 +20,7 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
                 name = "get_microprocessor_by_id",
                 query = "from Microprocessor m where m.id = :id"
         ),
-        @NamedQuery(
-                name = "update_microprocessor_by_id",
-                query = "from Microprocessor m where m.id = :id"
-        ),
+        //HQL - delete и update не получилось реализовать
         @NamedQuery(
                 name = "delete_microprocessor_by_id",
                 query = "delete from Microprocessor m where m.id = :id"
