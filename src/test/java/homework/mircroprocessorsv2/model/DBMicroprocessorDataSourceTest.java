@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-class DBOrderControlTest {
+class DBMicroprocessorDataSourceTest {
 
     @Test
     void saveMicroprocessor() {
@@ -65,7 +65,7 @@ class DBOrderControlTest {
 
     @Test
     void deleteMicroprocessorById() {
-        new DBMicroprocessorDataSource().deleteMicroprocessorById(91);
+        new DBMicroprocessorDataSource().deleteMicroprocessorById(93);
     }
 
     //HQL-запрос: выбрать всех
