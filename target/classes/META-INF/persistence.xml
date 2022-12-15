@@ -4,8 +4,8 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
     <persistence-unit name="default">
-        <class>homework.mircroprocessorsv2.model.ClockSpeed</class>
-        <class>homework.mircroprocessorsv2.model.Microprocessor</class>
+        <class>homework.mircroprocessorsv2.datasource.model.ClockSpeed</class>
+        <class>homework.mircroprocessorsv2.datasource.model.Microprocessor</class>
 
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/hardware_db"/>
